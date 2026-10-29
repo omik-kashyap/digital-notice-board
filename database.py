@@ -7,7 +7,11 @@ import sqlite3
 import os
 from datetime import datetime
 
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "notice_board.db")
+# Support serverless read-only environments like Vercel
+if os.environ.get("VERCEL"):
+    DB_PATH = "/tmp/notice_board.db"
+else:
+    DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "notice_board.db")
 
 def get_connection():
     conn = sqlite3.connect(DB_PATH)
